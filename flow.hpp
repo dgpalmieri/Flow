@@ -25,6 +25,7 @@ class Flow {
 
         int getMaxFlow();
 
+        void setGraph( Graph & graph );
 
     private:
 

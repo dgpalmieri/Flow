@@ -32,6 +32,8 @@ void Flow::printGraph() const {
 
 int Flow::getMaxFlow() { return this->_maxFlow; }
 
+void Flow::setGraph( Graph & graph ) { this->_graph = graph; }
+
 bool bfs( string & path, int & weight );
 
 void Flow::calculate() {
