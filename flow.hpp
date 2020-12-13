@@ -15,9 +15,7 @@ class Flow {
 
     public:
 
-        Flow() {};
-
-        Flow( Graph graph ) : _graph(graph) { };
+        Flow( Graph graph = { } ) : _graph(graph), _maxFlow(0) { };
 
         void hello() const;
 
@@ -26,6 +24,7 @@ class Flow {
         void calculate();
 
         int getMaxFlow();
+
 
     private:
 
