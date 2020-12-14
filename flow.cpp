@@ -60,30 +60,31 @@ void printPath( const vector< pair< int, int > > & path , const Graph & g ) {
 // Post:
 //      path contains a list of edges of a path from source to sink
 //      weight contains the maximum possible flow flow through the path
-bool bfs( vector< pair< int, int > > & path, int & weight, const Graph & g){
-    int currentVertex = 0;
-    queue< int > nextVerticies;
+bool bfs( vector< pair< int, int > > & path, size_t & weight, const Graph & g){
+    queue< int > verticies;
+    verticies.push( 0 );
     unordered_set< int > discovered{ 0 };
 
-    while ( g[ currentVertex ].size() > 0 ) {
+    while ( g[ verticies.front() ].size() > 0 ) {
+        int curr = verticies.front();
+        cout << "current vertex: " << curr << endl;
+        verticies.pop();
 
-        for ( const auto & p : g[currentVertex] )
+        for ( const auto & p : g[curr] ) {
             if ( p.second > 0 &&
                  discovered.find( p.first ) == discovered.end() ) {
-                nextVerticies.push( p.first );
+                verticies.push( p.first );
                 discovered.insert( p.first );
-                weight += p.second;
+                cout << "pushed to queue: " << p.first << endl;
+                path.push_back( { curr, p.first } );
             }
+        }
 
-        int nextVertex = nextVerticies.front();
-        nextVerticies.pop();
 
-        path.push_back( { currentVertex, nextVertex } );
-
-        cout << "Path pushed: " << currentVertex << ", " << nextVertex << endl;
-
-        currentVertex = nextVertex;
     }
+
+    if ( path.empty() )
+        return false;
 
     printPath( path, g );
     cout << endl;
@@ -91,15 +92,9 @@ bool bfs( vector< pair< int, int > > & path, int & weight, const Graph & g){
     auto end = path.size() - 1;
     auto prev = end - 1;
     while ( true ) {
-        if ( prev < 0 || end == 0) { break; }
+        if ( prev < 0 || end == 0 || path.empty() ) { break; }
 
         if ( path[ prev ].second != path[ end ].first ) {
-            for ( const auto & p : g[ path[ prev ].first ] ) {
-                if ( p.first == path[ prev ].second ) {
-                    weight -= p.second;
-                    break;
-                }
-            }
             path.erase( path.begin() + prev );
         }
 
@@ -107,12 +102,20 @@ bool bfs( vector< pair< int, int > > & path, int & weight, const Graph & g){
         --prev;
     }
 
+    for ( const auto & p : path ){
+        for ( const auto & q : g[ p.first ] ){
+            if ( q.first == p.second && weight > q.second )
+                weight = q.second;
+        }
+    }
+
     return true;
 }
 
 void Flow::calculate() {
     vector< pair< int, int > > path = { };
-    int weight = 0;
+    size_t weight = 0;
+    --weight;
 
     while( bfs( path, weight, this->_graph) ){
         printPath( path, this->_graph );
