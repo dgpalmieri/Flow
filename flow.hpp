@@ -9,7 +9,9 @@
 #include<vector>
 #include<utility>
 
-using Graph = std::vector < std::vector< std::pair< int, int > > >;
+using Graph = std::vector < std::vector< std::pair< std::size_t, std::size_t > > >;
+
+void printGraph(const Graph &);
 
 class Flow {
 
@@ -19,9 +21,9 @@ class Flow {
 
         void hello() const;
 
-        void printGraph() const;
-
         int getMaxFlow() const;
+
+        void printGraph() const { ::printGraph( this->_graph ); };
 
         void calculate();
 
