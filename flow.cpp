@@ -13,6 +13,7 @@ using std::endl;
 #include<utility>
 using std::pair;
 using std::make_pair;
+using std::size_t;
 
 #include<vector>
 using std::vector;
@@ -26,25 +27,18 @@ using std::queue;
 #include<unordered_set>
 using std::unordered_set;
 
-void Flow::hello() const {
-    std::cout << "Hello, World!" << std::endl;
-}
 
-void Flow::printGraph() const {
-    for ( size_t i = 0; i < this->_graph.size(); ++i ){
+void printGraph( const Graph & g ) {
+    for ( size_t i = 0; i < g.size(); ++i ){
             cout << "vertex " << i << ": ";
-        for ( auto x : this->_graph[i] ){
+        for ( auto x : g[i] ){
             cout << x.first << "(" << x.second << ") ";
         }
         cout << endl;
     }
 }
 
-int Flow::getMaxFlow() const { return this->_maxFlow; }
-
-void Flow::setGraph( Graph & graph ) { this->_graph = graph; }
-
-void printPath( const vector< pair< int, int > > & path , const Graph & g ) {
+void printPath( const vector< pair< size_t, size_t > > & path , const Graph & g ) {
     cout << "Path: ";
     for ( const auto & p : path ) {
         cout << p.first << " to " << p.second << ", weight: ";
@@ -60,14 +54,13 @@ void printPath( const vector< pair< int, int > > & path , const Graph & g ) {
 // Post:
 //      path contains a list of edges of a path from source to sink
 //      weight contains the maximum possible flow flow through the path
-bool bfs( vector< pair< int, int > > & path, size_t & weight, const Graph & g){
+bool bfs( vector< pair< size_t, size_t > > & path, size_t & weight, const Graph & g){
     queue< int > verticies;
     verticies.push( 0 );
     unordered_set< int > discovered{ 0 };
 
     while ( g[ verticies.front() ].size() > 0 ) {
         int curr = verticies.front();
-        cout << "current vertex: " << curr << endl;
         verticies.pop();
 
         for ( const auto & p : g[curr] ) {
@@ -75,19 +68,12 @@ bool bfs( vector< pair< int, int > > & path, size_t & weight, const Graph & g){
                  discovered.find( p.first ) == discovered.end() ) {
                 verticies.push( p.first );
                 discovered.insert( p.first );
-                cout << "pushed to queue: " << p.first << endl;
                 path.push_back( { curr, p.first } );
             }
         }
 
 
     }
-
-    if ( path.empty() )
-        return false;
-
-    printPath( path, g );
-    cout << endl;
 
     auto end = path.size() - 1;
     auto prev = end - 1;
@@ -109,22 +95,39 @@ bool bfs( vector< pair< int, int > > & path, size_t & weight, const Graph & g){
         }
     }
 
-    return true;
+    auto lastNode = ( path.end() - 1 )->second;
+    return lastNode == g.size() - 1;
 }
 
+
+void Flow::hello() const {
+    std::cout << "Hello, World!" << std::endl;
+}
+
+int Flow::getMaxFlow() const { return this->_maxFlow; }
+
+void Flow::setGraph( Graph & graph ) { this->_graph = graph; }
+
+
+
+
 void Flow::calculate() {
-    vector< pair< int, int > > path = { };
-    size_t weight = 0;
-    --weight;
+    vector< pair< size_t, size_t > > path = { };
+    size_t weight = -1;
 
-    while( bfs( path, weight, this->_graph) ){
-        printPath( path, this->_graph );
-        cout << "weight pushed: " << weight << endl;
-        cout << endl;
+    auto gcopy( this->_graph );
 
-        break;
+    while ( bfs( path, weight, gcopy ) ){
 
+        for ( const auto & edge : path ){
+            for ( auto & p : gcopy[ edge.first ] ) {
+                if ( p.first == edge.second )
+                    p.second -= weight;
+            }
+        }
+
+
+        this->_maxFlow += weight;
+        weight = -1;
     }
-
-    this->_maxFlow = 0;
 }
