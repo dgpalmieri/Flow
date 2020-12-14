@@ -16,8 +16,9 @@ int main() {
 
     { // first test case with example from
       // https://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/
+      // ( Also from the class final lol )
 
-    // The format for the graph is:
+    // The format for the graph input is:
     // index = node number
     // pair.first = node the edge connectes to
     // pair.second = edge weight
@@ -25,7 +26,7 @@ int main() {
                  { { 1, 16 }, { 2, 13 } }, // So, we have an edge 0->1 with weight 16, etc.
                  { { 2, 10 }, { 3, 12 } },
                  { { 1,  4 }, { 4, 14 } },
-                 { { 2,  9 }, { 5, 10 } },
+                 { { 2,  9 }, { 5, 20 } },
                  { { 3,  7 }, { 5,  4 } },
                  { }
                  } );
