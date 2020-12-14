@@ -40,9 +40,20 @@ void Flow::printGraph() const {
     }
 }
 
-int Flow::getMaxFlow() { return this->_maxFlow; }
+int Flow::getMaxFlow() const { return this->_maxFlow; }
 
 void Flow::setGraph( Graph & graph ) { this->_graph = graph; }
+
+void printPath( const vector< pair< int, int > > & path , const Graph & g ) {
+    cout << "Path: ";
+    for ( const auto & p : path ) {
+        cout << p.first << " to " << p.second << ", weight: ";
+        for ( const auto & q : g[ p.first ] ) {
+            if ( q.first == p.second )
+                cout << q.second << endl;
+        }
+    }
+}
 
 // bool bfs
 // Pre: all parameters are initialized
@@ -56,7 +67,7 @@ bool bfs( vector< pair< int, int > > & path, int & weight, const Graph & g){
 
     while ( g[ currentVertex ].size() > 0 ) {
 
-        for ( auto p : g[currentVertex] )
+        for ( const auto & p : g[currentVertex] )
             if ( p.second > 0 &&
                  discovered.find( p.first ) == discovered.end() ) {
                 nextVerticies.push( p.first );
@@ -69,16 +80,21 @@ bool bfs( vector< pair< int, int > > & path, int & weight, const Graph & g){
 
         path.push_back( { currentVertex, nextVertex } );
 
+        cout << "Path pushed: " << currentVertex << ", " << nextVertex << endl;
+
         currentVertex = nextVertex;
     }
+
+    printPath( path, g );
+    cout << endl;
 
     auto end = path.size() - 1;
     auto prev = end - 1;
     while ( true ) {
-        if ( prev < 0 ) { break; }
+        if ( prev < 0 || end == 0) { break; }
 
         if ( path[ prev ].second != path[ end ].first ) {
-            for ( auto p : g[ path[ prev ].first ] ) {
+            for ( const auto & p : g[ path[ prev ].first ] ) {
                 if ( p.first == path[ prev ].second ) {
                     weight -= p.second;
                     break;
@@ -99,6 +115,11 @@ void Flow::calculate() {
     int weight = 0;
 
     while( bfs( path, weight, this->_graph) ){
+        printPath( path, this->_graph );
+        cout << "weight pushed: " << weight << endl;
+        cout << endl;
+
+        break;
 
     }
 
