@@ -27,6 +27,7 @@ using std::queue;
 #include<unordered_set>
 using std::unordered_set;
 
+// GLOBAL FUNCTIONS 
 
 void printGraph( const Graph & g ) {
     for ( size_t i = 0; i < g.size(); ++i ){
@@ -99,17 +100,13 @@ bool bfs( vector< pair< size_t, size_t > > & path, size_t & weight, const Graph 
     return lastNode == g.size() - 1;
 }
 
+// FLOW MEMBER FUNCTIONS
 
-void Flow::hello() const {
-    std::cout << "Hello, World!" << std::endl;
-}
+void Flow::hello() const { std::cout << "Hello, World!" << std::endl; }
 
 int Flow::getMaxFlow() const { return this->_maxFlow; }
 
 void Flow::setGraph( Graph & graph ) { this->_graph = graph; }
-
-
-
 
 void Flow::calculate() {
     vector< pair< size_t, size_t > > path = { };
@@ -131,3 +128,4 @@ void Flow::calculate() {
         weight = -1;
     }
 }
+
