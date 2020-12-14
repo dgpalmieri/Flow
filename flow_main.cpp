@@ -23,7 +23,7 @@ int main() {
     // pair.first = node the edge connectes to
     // pair.second = edge weight
     Flow gfg_test( {
-                 { { 1, 16 }, { 2, 13 } }, // So, we have an edge 0->1 with weight 16, etc.
+                 { { 1, 16 }, { 2, 13 } }, // We have an edge 0->1 with weight 16, etc.
                  { { 2, 10 }, { 3, 12 } },
                  { { 1,  4 }, { 4, 14 } },
                  { { 2,  9 }, { 5, 20 } },
