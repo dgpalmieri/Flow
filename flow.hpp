@@ -21,9 +21,9 @@ class Flow {
 
         void printGraph() const;
 
-        void calculate();
+        int getMaxFlow() const;
 
-        int getMaxFlow();
+        void calculate();
 
         void setGraph( Graph & graph );
 
