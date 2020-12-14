@@ -14,7 +14,7 @@ int main() {
     Flow test;
     test.hello();
 
-    { // first test case with example from
+    { // test case with example from
       // https://www.geeksforgeeks.org/ford-fulkerson-algorithm-for-maximum-flow-problem/
       // ( Also from the class final lol )
 
@@ -34,7 +34,7 @@ int main() {
     gfg_test.calculate();
     int tFlow = gfg_test.getMaxFlow();
 
-    cout << "First test case: graph from GeeksForGeeks example" << endl;
+    cout << "Test Case: graph from GeeksForGeeks example" << endl;
     gfg_test.printGraph();
     if ( tFlow != 23 ){
         cout << "   TEST FAILED" << endl;
@@ -45,7 +45,36 @@ int main() {
     else
         cout << "   Test Passed!" << endl;
 
-    } // end first test case
+    } // end test case
+
+    { // second test case
+      // example from https://www.programiz.com/dsa/ford-fulkerson-algorithm
+
+    Flow p_test( {
+            { { 1, 8 }, { 3, 3 } },
+            { { 2, 9 } },
+            { { 5, 2 } },
+            { { 5, 5 } },
+            { { 2, 7 }, { 3, 4 } },
+            { }
+            } );
+
+
+    p_test.calculate();
+    int tFlow = p_test.getMaxFlow();
+
+    cout << "Test Case: graph from Programiz example" << endl;
+    p_test.printGraph();
+    if ( tFlow != 6 ){
+        cout << "   TEST FAILED" << endl;
+        cout << "   Max Flow value calculated: " << tFlow << endl;
+        cout << "   Expected value: 6" << endl;
+
+    }
+    else
+        cout << "   Test Passed!" << endl;
+
+    }
 
     return 0;
 }
