@@ -34,9 +34,3 @@ Flow gfg_test( {
 There are a couple functions that can be used to take a closer look at the
 step-by-step functionality of this module that I've left in the Flow source
 file. Feel free to dig around!
-
-### Still TODO
-
-Currently, the second test in the main program fails due to the fact that the correct
-answer requires a backwards traversal of a path from node 2 to node 4, with flow 1.
-I'm still working out how to do this, and will update the code as soon as I've figured it out!
