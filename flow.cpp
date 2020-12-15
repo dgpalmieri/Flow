@@ -79,9 +79,6 @@ bool bfs( vector< pair< size_t, size_t > > & path, size_t & weight, const Graph 
         for ( const auto & p : g[ curr ] ) {
             if ( p.second > 0 &&
                  discovered.find( p.first ) == discovered.end() ) {
-                cout << "curr: " << curr << endl;
-                cout << "pushing: " << p.first << endl;
-                cout << "weight: " << p.second << endl;
                 verticies.push( p.first );
                 discovered.insert( p.first );
                 path.push_back( { curr, p.first } );
@@ -91,9 +88,6 @@ bool bfs( vector< pair< size_t, size_t > > & path, size_t & weight, const Graph 
 
     if ( path.empty() )
         return false;
-
-    cout << "Unsanitized path" << endl;
-    printPath( path, g );
 
     auto end = path.size() - 1;
     auto prev = end - 1;
@@ -110,9 +104,6 @@ bool bfs( vector< pair< size_t, size_t > > & path, size_t & weight, const Graph 
 
     if ( path[0].first != 0 || path[ path.size() - 1 ].second != g.size() - 1 )
         return false;
-
-    cout << "Sanitized path" << endl;
-    printPath( path, g );
 
     for ( const auto & p : path ){
         for ( const auto & q : g[ p.first ] ){
@@ -158,15 +149,11 @@ void Flow::calculate() {
             }
         }
 
-        ::printGraph( gcopy );
 
         path.clear();
 
-        cout << "current flow " << this->_maxFlow << " + weight " << weight << endl;
         this->_maxFlow += weight;
         weight = -1;
     }
-    cout << "final graph:" << endl;
-    ::printGraph( gcopy );
 }
 
